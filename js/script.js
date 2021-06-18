@@ -31,6 +31,22 @@ btnAdd.addEventListener('click', event => {
     }
 });
 
+const deleteEmployee = function(id) {
+    let promise = axios({
+        method: 'delete',
+        url: `${apiURL}/XoaNhanVien?maSinhVien=${id}`,
+    });
+
+    promise.then(function(response) {
+        getEmployees();
+    })
+
+    promise.catch(function(error) {
+        console.log(error);
+    }) 
+
+};
+
 const getFormData = function() {
     const employee = new Employee(
         inpId.value,
