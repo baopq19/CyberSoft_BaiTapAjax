@@ -31,6 +31,42 @@ btnAdd.addEventListener('click', event => {
     }
 });
 
+btnUpdate.addEventListener('click', event => {
+    event.preventDefault();
+    let employee = getFormData();
+    let valid = validation(employee);
+    if(valid) {
+        updateEmployee(employee);
+        btnUpdate.disabled = true;
+        btnAdd.disabled = false;
+        inpId.disabled = false;
+
+        inpId.value = '';
+        inpName.value = '';
+        selPosition.selectedIndex = '1';
+        inpSalary.value = '';
+        inpHours.value = '';    
+    }
+})
+
+const updateEmployee = (employee) => {
+    let nhanVien = parseNhanVien(employee);
+    let promise = axios({
+        method: 'put',
+        url: `${apiURL}/CapNhatThongTinNhanVien?maNhanVien=${nhanVien.maNhanVien}`,
+        data: nhanVien
+    });
+
+    promise.then((response) => {
+        console.log(response);
+        getEmployees();
+    })
+
+    promise.catch((error) => {
+        console.log(error);
+    })
+}
+
 const deleteEmployee = function(id) {
     let promise = axios({
         method: 'delete',
@@ -190,3 +226,31 @@ const parseNhanVien = function(employee) {
 
     return nhanVien;
 }
+
+const editEmployee = async function(id) {
+    var promise = axios({
+        method: 'get',
+        url: `${apiURL}/LayThongTinNhanVien?maNhanVien=${id}`
+    });
+
+    promise.then(function(response) {
+        nhanVien = response.data;
+        if(nhanVien) {
+            inpId.value = nhanVien.maNhanVien;
+            inpName.value = nhanVien.tenNhanVien;
+            inpSalary.value = nhanVien.luongCoBan;
+            inpHours.value = nhanVien.soGioLamTrongThang;
+            selPosition.value = nhanVien.chucVu;
+
+            btnUpdate.disabled = false;
+            btnAdd.disabled = true;
+            inpId.disabled = true;
+        }
+    })
+
+    promise.catch(function(error) {
+        console.log(error);
+    })
+    
+}
+

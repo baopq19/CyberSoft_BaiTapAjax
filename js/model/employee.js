@@ -19,12 +19,12 @@ class Employee {
 
     ranking() {
         let rank = 'Nhân viên trung bình';
-        if(this.hours >= 80) {
-            rank = 'Nhân viên khá'
+        if(this.hours >= 120) {
+            rank = 'Nhân viên xuất sắc';
         } else if(this.hours >= 100) {
             rank = 'Nhân viên giỏi';
-        } else if(this.hours >= 120) {
-            rank = 'Nhân viên xuất sắc'
+        } else if(this.hours >= 80) {
+            rank = 'Nhân viên khá';
         }
         return rank;
     }
